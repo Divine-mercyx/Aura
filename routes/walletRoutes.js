@@ -7,7 +7,7 @@ const client = new SuiClient({ url: SUI_FULLNODE });
 
 export const getAllAssets = async (req, res) => {
   try {
-    const { walletAddress } = req.body;
+    const { walletAddress } = req.params;
     if (!walletAddress) return res.status(400).json({ error: "walletAddress is required" });
 
     const coinsResp = await client.getAllCoins({ owner: walletAddress });
