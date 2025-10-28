@@ -3,6 +3,6 @@ import { getAllAssets } from "../routes/walletRoutes.js";
 
 const walletRouter = express.Router()
 
-walletRouter.get("/assets", getAllAssets);
+walletRouter.post("/assets", getAllAssets);
 
 export default walletRouter;
