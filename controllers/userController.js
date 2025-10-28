@@ -1,5 +1,5 @@
 import express from "express";
-import { checkIfAccountExists, createAccount, getUser } from "../routes/userRoutes";
+import { checkIfAccountExists, createAccount, getUser } from "../routes/userRoutes.js";
 
 const router = express.Router();
 
