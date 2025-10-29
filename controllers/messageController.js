@@ -6,7 +6,7 @@ const messageRouter = express.Router();
 messageRouter.get("/:communityId/messages", async (req, res) => {
   try {
     const messages = await Message.find({ community: req.params.communityId })
-      .populate("sender", "username wallet") 
+      .populate("sender", "handle walletAddress image")
       .sort({ createdAt: 1 });
     res.json(messages);
   } catch (err) {
@@ -14,5 +14,6 @@ messageRouter.get("/:communityId/messages", async (req, res) => {
     res.status(500).json({ error: "Failed to load messages" });
   }
 });
+
 
 export default messageRouter;
