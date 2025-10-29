@@ -1,5 +1,5 @@
-import Community from "../models/Community";
-import Message from "../models/Message";
+import Community from "../models/Community.js";
+import Message from "../models/Message.js";
 
 
 export const createCommunity = async (req, res) => {
