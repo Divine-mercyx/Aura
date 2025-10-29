@@ -10,6 +10,7 @@ import projectRouter from "./controllers/projectController.js";
 import listRouter from "./controllers/listingController.js";
 import communityRouter from "./controllers/communityController.js";
 import Message from "./models/Message.js";
+import messageRouter from "./controllers/messageController.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/api/wallet", walletRouter);
 app.use("/api/projects", projectRouter)
 app.use("/api/assets/list", listRouter)
 app.use("/api/community", communityRouter);
+app.use("/api/messages", messageRouter)
 
 mongoose
   .connect(process.env.MONGO_URI)
