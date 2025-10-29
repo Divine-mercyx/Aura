@@ -9,6 +9,7 @@ import walletRouter from "./controllers/walletController.js";
 import projectRouter from "./controllers/projectController.js";
 import listRouter from "./controllers/listingController.js";
 import communityRouter from "./controllers/communityController.js";
+import Message from "./models/Message.js";
 
 dotenv.config();
 
