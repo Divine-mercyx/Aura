@@ -1,21 +1,58 @@
 import express from "express";
 import mongoose from "mongoose";
+import http from "http";
+import { Server } from "socket.io";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./controllers/userController.js";
 import walletRouter from "./controllers/walletController.js";
 import projectRouter from "./controllers/projectController.js";
 import listRouter from "./controllers/listingController.js";
+import communityRouter from "./controllers/communityController.js";
 
 dotenv.config();
-const app = express();
 
+const app = express();
 app.use(cors());
 app.use(express.json());
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("joinCommunity", (communityId) => {
+    socket.join(communityId);
+    console.log(`User joined community ${communityId}`);
+  });
+
+  socket.on("leaveCommunity", (communityId) => {
+    socket.leave(communityId);
+    console.log(`User left community ${communityId}`);
+  });
+
+  socket.on("sendMessage", async ({ communityId, senderId, content }) => {
+    const message = await Message.create({ community: communityId, sender: senderId, content });
+    io.to(communityId).emit("newMessage", message);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+
 app.use("/api/auth", userRouter);
 app.use("/api/wallet", walletRouter);
 app.use("/api/projects", projectRouter)
 app.use("/api/assets/list", listRouter)
+app.use("/api/community", communityRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
