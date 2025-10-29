@@ -46,3 +46,16 @@ export const getCommunityMessages = async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 }
+
+export const getCommunities = async (req, res) => {
+  try {
+    const communities = await Community.find()
+      .populate("creator", "username")
+      .select("name description creator members createdAt");
+
+    res.json(communities);
+  } catch (err) {
+    console.error("Error fetching communities:", err);
+    res.status(500).json({ error: "Failed to fetch communities" });
+  }
+}
