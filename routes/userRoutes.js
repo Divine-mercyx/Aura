@@ -3,22 +3,22 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-export const checkIfAccountExists = async (req, res) => {
-  try {
-    const { walletAddress } = req.body;
-    const user = await User.findOne({ walletAddress });
+// export const checkIfAccountExists = async (req, res) => {
+//   try {
+//     const { walletAddress } = req.body;
+//     const user = await User.findOne({ walletAddress });
 
-    if (!user) return res.json({ exists: false });
-    return res.json({ exists: true, user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
-  }
-};
+//     if (!user) return res.json({ exists: false });
+//     return res.json({ exists: true, user });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
 
 export const createAccount =  async (req, res) => {
   try {
-    const { walletAddress, handle, image } = req.body;
+    const { walletAddress } = req.body;
 
     const existing = await User.findOne({ walletAddress });
     if (existing) return res.status(400).json({ error: "User already exists" });
