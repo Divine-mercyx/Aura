@@ -16,21 +16,26 @@ const router = express.Router();
 //   }
 // };
 
-export const createAccount =  async (req, res) => {
-  try {
-    const { walletAddress } = req.body;
+export const createAccount = async (req, res) => {
+    try {
+        const { walletAddress, handle, image } = req.body;
 
-    const existing = await User.findOne({ walletAddress });
-    if (existing) return res.status(400).json({ error: "User already exists" });
+        if (!walletAddress) {
+            return res.status(400).json({ error: "walletAddress is required" });
+        }
 
-    const newUser = new User({ walletAddress, handle, image });
-    await newUser.save();
+        let user = await User.findOne({ walletAddress });
 
-    res.json({ success: true, user: newUser });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
-  }
+        if (!user) {
+            user = new User({ walletAddress, handle, image });
+            await user.save();
+        }
+
+        res.json({ success: true, user });
+    } catch (error) {
+        console.error("Error creating/fetching account:", error);
+        res.status(500).json({ error: "Server error" });
+    }
 };
 
 
