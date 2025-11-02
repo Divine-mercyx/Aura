@@ -18,7 +18,7 @@ const router = express.Router();
 
 export const createAccount = async (req, res) => {
     try {
-        const { walletAddress, handle, image } = req.body;
+        const { walletAddress } = req.body;
 
         if (!walletAddress) {
             return res.status(400).json({ error: "walletAddress is required" });
@@ -27,7 +27,7 @@ export const createAccount = async (req, res) => {
         let user = await User.findOne({ walletAddress });
 
         if (!user) {
-            user = new User({ walletAddress, handle, image });
+            user = new User({ walletAddress,});
             await user.save();
         }
 
