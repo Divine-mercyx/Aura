@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const transactionSchema = new mongoose.Schema({
     sender: { type: String, required: false }, // Changed to false
     receiver: { type: String, required: false }, // Changed to false
-    suiExness: { type: String, required: false },
+    suiNess: { type: String, required: false },
     voiceRecording: { type: [String], required: false },
     emoji: { type: String, required: false },
     message: { type: String, required: false },

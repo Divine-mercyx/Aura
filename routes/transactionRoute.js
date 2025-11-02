@@ -1,7 +1,7 @@
 import Transaction from "../models/Transaction.js";
 
 // Create a new transaction
-export const createTransactionController = async (req, res) => {
+export const createTransaction = async (req, res) => {
     try {
         const data = req.body;
 
@@ -27,7 +27,7 @@ export const createTransactionController = async (req, res) => {
 };
 
 // Get all transactions
-export const getAllTransactionsController = async (req, res) => {
+export const getAllTransactions = async (req, res) => {
     try {
         const transactions = await Transaction.find().sort({ createdAt: -1 });
         res.status(200).json({
@@ -42,7 +42,7 @@ export const getAllTransactionsController = async (req, res) => {
 };
 
 // Get a single transaction by hash
-export const getTransactionByHashController = async (req, res) => {
+export const getTransactionByHash = async (req, res) => {
     try {
         const { txHash } = req.params;
 
@@ -70,7 +70,7 @@ export const getTransactionByHashController = async (req, res) => {
 };
 
 // Get all transactions related to a wallet
-export const getTransactionsByWalletController = async (req, res) => {
+export const getTransactionsByWallet = async (req, res) => {
     try {
         const { walletAddress } = req.params;
 
@@ -97,7 +97,7 @@ export const getTransactionsByWalletController = async (req, res) => {
 };
 
 // Update transaction status
-export const updateTransactionStatusController = async (req, res) => {
+export const updateTransactionStatus = async (req, res) => {
     try {
         const { txHash } = req.params;
         const { status } = req.body;

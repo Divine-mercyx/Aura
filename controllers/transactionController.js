@@ -1,18 +1,18 @@
 import express from "express";
 import {
-    createTransactionController,
-    getAllTransactionsController,
-    getTransactionByHashController,
-    getTransactionsByWalletController,
-    updateTransactionStatusController
+    createTransaction,
+    getAllTransactions,
+    getTransactionByHash,
+    getTransactionsByWallet,
+    updateTransactionStatus
 } from "../routes/transactionRoute.js";
 
 const router = express.Router();
 
-router.post("/create", createTransactionController);
-router.get("/all", getAllTransactionsController);
-router.get("/hash/:txHash", getTransactionByHashController);
-router.get("/wallet/:walletAddress", getTransactionsByWalletController);
-router.patch("/:txHash/status", updateTransactionStatusController);
+router.post("/create", createTransaction);
+router.get("/all", getAllTransactions);
+router.get("/hash/:txHash", getTransactionByHash);
+router.get("/wallet/:walletAddress", getTransactionsByWallet);
+router.patch("/:txHash/status", updateTransactionStatus);
 
 export default router;

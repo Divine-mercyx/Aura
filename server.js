@@ -11,6 +11,7 @@ import listRouter from "./controllers/listingController.js";
 import communityRouter from "./controllers/communityController.js";
 import Message from "./models/Message.js";
 import messageRouter from "./controllers/messageController.js";
+import contributionRouter from "./controllers/contributionController.js";
 import transactionRouter from "./controllers/transactionController.js";
 
 dotenv.config();
@@ -56,6 +57,7 @@ app.use("/api/wallet", walletRouter);
 app.use("/api/transactions", transactionRouter);
 app.use("/api/projects", projectRouter)
 app.use("/api/assets/list", listRouter)
+app.use("/api/contributions", contributionRouter);
 app.use("/api/community", communityRouter);
 app.use("/api/messages", messageRouter)
 
