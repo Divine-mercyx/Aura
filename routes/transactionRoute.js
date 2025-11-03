@@ -3,16 +3,41 @@ import Transaction from "../models/Transaction.js";
 // Create a new transaction
 export const createTransaction = async (req, res) => {
     try {
-        const data = req.body;
+        const {
+            sender,
+            receiver,
+            suiNess,
+            voiceRecording,
+            emoji,
+            message,
+            amount,
+            token,
+            txHash,
+            status,
+            walletAddress
+        } = req.body;
 
-        if (!data.txHash || !data.walletAddress) {
+        if (!txHash || !walletAddress) {
             return res.status(400).json({
                 success: false,
                 message: "Transaction hash and wallet address are required",
             });
         }
 
-        const transaction = new Transaction(data);
+        const transaction = new Transaction({
+            sender,
+            receiver,
+            suiNess,
+            voiceRecording,
+            emoji,
+            message,
+            amount,
+            token,
+            txHash,
+            status,
+            walletAddress
+        });
+
         await transaction.save();
 
         res.status(201).json({
@@ -22,14 +47,17 @@ export const createTransaction = async (req, res) => {
         });
     } catch (error) {
         console.error("Create transaction error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 };
 
 // Get all transactions
 export const getAllTransactions = async (req, res) => {
     try {
-        const transactions = await Transaction.find().sort({ createdAt: -1 });
+        const transactions = await Transaction.find().sort({ timestamp: -1 });
         res.status(200).json({
             success: true,
             count: transactions.length,
@@ -37,7 +65,10 @@ export const getAllTransactions = async (req, res) => {
         });
     } catch (error) {
         console.error("Fetch all transactions error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 };
 
@@ -62,10 +93,16 @@ export const getTransactionByHash = async (req, res) => {
             });
         }
 
-        res.status(200).json({ success: true, data: transaction });
+        res.status(200).json({
+            success: true,
+            data: transaction,
+        });
     } catch (error) {
         console.error("Fetch transaction by hash error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 };
 
@@ -82,8 +119,8 @@ export const getTransactionsByWallet = async (req, res) => {
         }
 
         const transactions = await Transaction.find({
-            $or: [{ from: walletAddress }, { to: walletAddress }],
-        }).sort({ createdAt: -1 });
+            $or: [{ sender: walletAddress }, { receiver: walletAddress }],
+        }).sort({ timestamp: -1 });
 
         res.status(200).json({
             success: true,
@@ -92,7 +129,10 @@ export const getTransactionsByWallet = async (req, res) => {
         });
     } catch (error) {
         console.error("Fetch wallet transactions error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 };
 
@@ -129,6 +169,9 @@ export const updateTransactionStatus = async (req, res) => {
         });
     } catch (error) {
         console.error("Update transaction status error:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
     }
 };
